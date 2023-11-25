@@ -16,7 +16,7 @@ class UrlapView {
     console.log(this.submitElem)
     this.nevElem = this.formElem.find("#nev")
     this.szulEvElem = this.formElem.find("#szul_ev")
-    
+
     this.submitElem.on("click", (event)=>{
         event.preventDefault()
         this.#formAdat.nev=this.nevElem.val()
@@ -38,6 +38,7 @@ class UrlapView {
                 <input type="text" class="form-control" 
                     id="nev" 
                     placeholder="Valaki Vagyok" 
+                    pattern="[A-Z][a-z]{3}"
                     name="nev">
              </div>`
 
