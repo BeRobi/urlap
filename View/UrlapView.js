@@ -1,9 +1,34 @@
 class UrlapView {
+
+    #formAdat={}
   constructor(szuloElem) {
     szuloElem.append("<form>");
     this.formElem = szuloElem.find("form");
     console.log(this.formElem);
     this.htmlOsszeallit();
+    /* submit gomb kezelése
+    1. létrehozom a gombhoz a kapaszkodót
+    2. hozzárendelem az eseményt
+    3. ebben az eseményben összegyűjtöm a form adatait
+    4. felküldöm a kontrollernek */
+
+    this.submitElem=this.formElem.find("#submit")
+    console.log(this.submitElem)
+    this.nevElem = this.formElem.find("#nev")
+    this.szulEvElem = this.formElem.find("#szul_ev")
+    
+    this.submitElem.on("click", (event)=>{
+        event.preventDefault()
+        this.#formAdat.nev=this.nevElem.val()
+        this.#formAdat.szul=this.szulEvElem.val()
+        console.log(this.#formAdat)
+        this.trigger("ujAdatHozzaAdasa")
+    })
+  }
+
+  trigger(esemenyNev){
+        const e=new CustomEvent(esemenyNev, {detail:this.#formAdat})
+        window.dispatchEvent(e)
   }
 
   htmlOsszeallit() {
