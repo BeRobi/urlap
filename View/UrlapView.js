@@ -14,7 +14,7 @@ class UrlapView {
                     id="nev" 
                     placeholder="Valaki Vagyok" 
                     name="nev">
-             </div>`;
+             </div>`
 
     txt += `<div class="mb-3 mt-3">
                 <label for="szul_ev" class="form-label">Születési év:</label>
@@ -25,6 +25,13 @@ class UrlapView {
                     max="2500" 
                     name="szul_ev">
             </div>`  
+            
+            txt += `<div class="mb-3 mt-3">
+                    <input type="submit"" 
+                    id="submit" 
+                    value="Küld"    
+            </div>`  
+
   this.formElem.append(txt)       
   }
 }
