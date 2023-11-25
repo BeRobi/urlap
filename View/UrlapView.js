@@ -1,8 +1,11 @@
+import TextUrlapView from "./TextUrlapView.js";
 import { adatLeiras } from "./adat.js";
 
 class UrlapView {
 
     #formAdat={}
+    #inputElemObjektumokLista=[] // itt tároljuk azokat az objektumokat amelyek létrehozzák a form elemeket
+
   constructor(szuloElem) {
     szuloElem.append("<form>");
     this.formElem = szuloElem.find("form");
@@ -15,15 +18,22 @@ class UrlapView {
     4. felküldöm a kontrollernek */
 
     this.submitElem=this.formElem.find("#submit")
-    console.log(this.submitElem)
-    this.nevElem = this.formElem.find("#nev")
-    this.szulEvElem = this.formElem.find("#szul_ev")
+    //console.log(this.submitElem)
+    //this.nevElem = this.formElem.find("#nev")
+    //this.szulEvElem = this.formElem.find("#szul_ev")
 
     this.submitElem.on("click", (event)=>{
         event.preventDefault()
-      
-        this.#formAdat.nev=this.nevElem.val()
-        this.#formAdat.szul=this.szulEvElem.val()
+        this.#inputElemObjektumokLista.forEach(
+            (elem)=>{
+                console.log(elem)
+                console.log(elem.key)
+                console.log(elem.getValue())
+                this.#formAdat[elem.key]=elem.getValue()
+            }
+        )
+        //this.#formAdat.nev=this.nevElem.val()
+        //this.#formAdat.szul=this.szulEvElem.val()
         console.log(this.#formAdat)
         this.trigger("ujAdatHozzaAdasa")
     })
@@ -34,18 +44,7 @@ class UrlapView {
         window.dispatchEvent(e)
   }
 
-  textUrlapElem(obj, key){
-   let txt = `<div class="mb-3 mt-3">
-    <label for="${key}" class="form-label">${obj.megjelenes}</label>
-    <input type="${obj.tipus}" class="form-control" 
-        id="${key}" 
-        placeholder="${obj.placeholder}" 
-        pattern="${obj.pattern}"
-        value="${obj.value}"
-        name="${key}">
-    </div>`  
-    return txt      
-  }
+ 
 
   numberUrlapElem(obj, key){
     let txt = `<div class="mb-3 mt-3">
@@ -66,16 +65,15 @@ class UrlapView {
     for (const key in adatLeiras) {
         switch (adatLeiras[key].tipus) {
             case "text":
-                txt+= this.textUrlapElem(adatLeiras[key],key)
+                this.#inputElemObjektumokLista.push(new TextUrlapView(this.formElem, adatLeiras[key],key))
                 break;
         case "number":
                 txt+= this.numberUrlapElem(adatLeiras[key],key)
             default:
                 break;
-        }
-     
+        }    
     }
-           
+        //console.log(this.#inputElemObjektumokLista)   
         txt += `<div class="mb-3 mt-3">
                     <input type="submit"" 
                     id="submit" 
