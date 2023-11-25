@@ -1,3 +1,5 @@
+import { adatLeiras } from "./adat.js";
+
 class UrlapView {
 
     #formAdat={}
@@ -19,6 +21,7 @@ class UrlapView {
 
     this.submitElem.on("click", (event)=>{
         event.preventDefault()
+      
         this.#formAdat.nev=this.nevElem.val()
         this.#formAdat.szul=this.szulEvElem.val()
         console.log(this.#formAdat)
@@ -31,32 +34,53 @@ class UrlapView {
         window.dispatchEvent(e)
   }
 
+  textUrlapElem(obj, key){
+   let txt = `<div class="mb-3 mt-3">
+    <label for="${key}" class="form-label">${obj.megjelenes}</label>
+    <input type="${obj.tipus}" class="form-control" 
+        id="${key}" 
+        placeholder="${obj.placeholder}" 
+        pattern="${obj.pattern}"
+        value="${obj.value}"
+        name="${key}">
+    </div>`  
+    return txt      
+  }
+
+  numberUrlapElem(obj, key){
+    let txt = `<div class="mb-3 mt-3">
+    <label for="${key}" class="form-label">${obj.megjelenes}</label>
+    <input type="${obj.tipus}" class="form-control" 
+        id="${key}" 
+        placeholder="${obj.placeholder}" 
+        min="${obj.pattern.min}"
+        max="${obj.pattern.max}"
+        value="${obj.value}"
+        name="${key}">
+    </div>`  
+    return txt      
+  }
+
   htmlOsszeallit() {
     let txt = "";
-    txt += `<div class="mb-3 mt-3">
-                <label for="nev" class="form-label">Név:</label>
-                <input type="text" class="form-control" 
-                    id="nev" 
-                    placeholder="Valaki Vagyok" 
-                    pattern="[A-Z][a-z]{3}"
-                    name="nev">
-             </div>`
-
-    txt += `<div class="mb-3 mt-3">
-                <label for="szul_ev" class="form-label">Születési év:</label>
-                <input type="number" class="form-control" 
-                    id="szul_ev" 
-                    value="1975" 
-                    min="1000" 
-                    max="2500" 
-                    name="szul_ev">
-            </div>`  
-            
-            txt += `<div class="mb-3 mt-3">
+    for (const key in adatLeiras) {
+        switch (adatLeiras[key].tipus) {
+            case "text":
+                txt+= this.textUrlapElem(adatLeiras[key],key)
+                break;
+        case "number":
+                txt+= this.numberUrlapElem(adatLeiras[key],key)
+            default:
+                break;
+        }
+     
+    }
+           
+        txt += `<div class="mb-3 mt-3">
                     <input type="submit"" 
                     id="submit" 
                     value="Küld"    
-            </div>`  
+                </div>`  
 
   this.formElem.append(txt)       
   }
