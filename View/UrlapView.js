@@ -88,7 +88,7 @@ class UrlapView {
     txt += `<div class="mb-3 mt-3">
                     <input type="submit"" 
                     id="submit" 
-                    value="Küld"    
+                    value="Regisztrálok"    
                 </div>`;
 
     this.formElem.append(txt);

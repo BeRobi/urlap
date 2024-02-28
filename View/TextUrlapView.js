@@ -1,6 +1,6 @@
 export default class TextUrlapView {
   #value = "";
-  #valid = false;
+  #valid = true;
 
   constructor(szuloElem, obj, key) {
     this.szuloElem = szuloElem;
@@ -16,7 +16,7 @@ export default class TextUrlapView {
       let pattern = new RegExp(patternString); //reguláris kifejezés átalakítása reguláris objektummá
       if (pattern.test(this.#value)) {
         this.#valid = true;
-      } else this.#valid = false;
+      } else this.#valid = true;
 
       console.log(this.#valid);
     });
